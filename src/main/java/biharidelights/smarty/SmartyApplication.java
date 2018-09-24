@@ -1,12 +1,15 @@
 package biharidelights.smarty;
 
 import biharidelights.smarty.message.Sender;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
+@Slf4j
 public class SmartyApplication {//implements CommandLineRunner {
 
     static int counter = 0;
@@ -19,8 +22,11 @@ public class SmartyApplication {//implements CommandLineRunner {
     private Sender sender;
 
     //@Override
-    @Scheduled(fixedRate = 1000)
+    //@Scheduled(fixedRate = 60000)
     public void run() throws Exception {
-        sender.send("My Message : " + counter++);
+        log.info("publishing message.");
+        if(sender != null) {
+            sender.send("My Message : " + counter++);
+        }
     }
 }

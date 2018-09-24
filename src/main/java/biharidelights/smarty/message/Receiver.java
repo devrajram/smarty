@@ -1,5 +1,6 @@
 package biharidelights.smarty.message;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -9,6 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class Receiver {
 
     private static final Logger LOG = LoggerFactory.getLogger(Receiver.class);
@@ -16,7 +18,7 @@ public class Receiver {
     @KafkaListener(topics = "${app.topic.test}")
     public void receive(@Payload String message,
                         @Headers MessageHeaders headers) {
-        LOG.info("received message='{}'", message);
+        log.info("received message='{}'", message);
         headers.keySet().forEach(key -> LOG.info("{}: {}", key, headers.get(key)));
     }
 
